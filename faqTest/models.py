@@ -32,9 +32,6 @@ class TestFAQ(models.Model):
     punteggio_totale = models.IntegerField(blank=True, null=True)
 
     def save(self, *args, **kwargs):
-        """
-        Calcola automaticamente la somma dei punteggi prima di salvare su AWS.
-        """
         risposte = [
             self.domanda_1, self.domanda_2, self.domanda_3, self.domanda_4, self.domanda_5,
             self.domanda_6, self.domanda_7, self.domanda_8, self.domanda_9, self.domanda_10

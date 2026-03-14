@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        @page { size: a4 portrait; margin: 2cm; }
+        body { font-family: "DejaVu Sans", sans-serif; color: #333; }
+        .header { text-align: center; border-bottom: 2px solid #007bff; padding-bottom: 10px; }
+        .score-box { background: #f8f9fa; padding: 20px; border: 1px solid #ddd; text-align: center; margin: 20px 0; }
+        .result { font-size: 24px; color: #007bff; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>DeepTrace - Report Clinico</h1>
+        <p>Functional Activities Questionnaire (FAQ)</p>
+    </div>
+
+    <p><strong>Paziente:</strong> {{ test.paziente_email }}</p>
+    <p><strong>Data:</strong> {{ test.data_creazione|date:"d/m/Y H:i" }}</p>
+    <p><strong>Fonte:</strong> {{ test.identificazione_compilatore }}</p>
+
+    <div class="score-box">
+        <p>PUNTEGGIO TOTALE OTTENUTO</p>
+        <div class="result">{{ test.punteggio_totale }} / 50</div>
+    </div>
+
+    <h3>Dettaglio Risposte:</h3>
+    <ol style="line-height: 1.6;">
+        <li><strong>Gestione finanze:</strong> {{ test.domanda_1 }}</li>
+        <li><strong>Compilazione moduli e bollettini:</strong> {{ test.domanda_2 }}</li>
+        <li><strong>Acquisti (vestiti, alimentari):</strong> {{ test.domanda_3 }}</li>
+        <li><strong>Giochi di abilita' e hobbies:</strong> {{ test.domanda_4 }}</li>
+        <li><strong>Preparazione caffe'/uso fornelli:</strong> {{ test.domanda_5 }}</li>
+        <li><strong>Preparazione pasti completi:</strong> {{ test.domanda_6 }}</li>
+        <li><strong>Informazione su eventi correnti:</strong> {{ test.domanda_7 }}</li>
+        <li><strong>Comprensione TV, libri, articoli:</strong> {{ test.domanda_8 }}</li>
+        <li><strong>Ricordo appuntamenti e farmaci:</strong> {{ test.domanda_9 }}</li>
+        <li><strong>Spostamenti e guida fuori quartiere:</strong> {{ test.domanda_10 }}</li>
+    </ol>
+
+    <div style="margin-top: 30px; padding: 15px; border-top: 1px solid #ccc;">
+        <p><strong>Nota clinica:</strong> 
+            {% if test.punteggio_totale >= 9 %}
+                Il punteggio di {{ test.punteggio_totale }} e' pari o superiore al <strong>valore soglia</strong> (9). 
+                Si suggerisce una valutazione clinica approfondita per possibile decadimento funzionale.
+            {% else %}
+                Il punteggio di {{ test.punteggio_totale }} rientra nei parametri di normalità.
+            {% endif %}
+        </p>
+    </div>
+
+    <p style="margin-top: 50px; font-size: 10px; color: #777;">
+        Documento generato automaticamente dal sistema DeepTrace.
+    </p>
+</body>
+</html>

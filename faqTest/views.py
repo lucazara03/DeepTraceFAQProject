@@ -1,21 +1,36 @@
 from django.shortcuts import render
-
-from django.shortcuts import render
 from .models import FAQForm
+from django.core.mail import EmailMessage
+from .utils import render_to_pdf
+from django.contrib import messages
+from django.utils import timezone
 
 def home_test(request):
-    punteggio_ottenuto = None
-    
     if request.method == "POST":
         form = FAQForm(request.POST)
         if form.is_valid():
-            istanza_test = form.save()
+            test_obj = form.save()
             
-            return render(request, 'faqTest/faqTest.html', {
-                'punteggio': istanza_test.punteggio_totale,
-                'email': istanza_test.paziente_email
-            })
+            pdf_content = render_to_pdf('faqTest/reportPdf.html', {'test': test_obj})
+            
+            data_locale = timezone.localtime(test_obj.data_creazione)
+            data_formattata = data_locale.strftime("%d/%m/%Y alle %H:%M")
+            
+            if pdf_content:
+                email = EmailMessage(
+                    subject=f"Report DeepTrace FAQ - {test_obj.paziente_email}",
+                    body=f"In allegato il report del test FAQ effettuato il {data_formattata}.",
+                    from_email='noreply@deeptrace.it',
+                    to=[test_obj.paziente_email],
+                )
+                email.attach(f'Report_FAQ_{test_obj.id}.pdf', pdf_content, 'application/pdf')
+                try:
+                    email.send()
+                    messages.success(request, f"Il report è stato spedito a {test_obj.paziente_email}.")
+                except Exception as e:
+                    messages.error(request, f"Errore invio email a {test_obj.paziente_email}.")
+
+            return render(request, 'faqTest/success.html', {'test': test_obj})
     else:
         form = FAQForm()
-    
     return render(request, 'faqTest/faqTest.html', {'form': form})
