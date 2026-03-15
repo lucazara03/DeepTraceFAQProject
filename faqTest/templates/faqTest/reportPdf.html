@@ -17,7 +17,7 @@
 
     <p><strong>Paziente:</strong> {{ test.paziente_email }}</p>
     <p><strong>Data:</strong> {{ test.data_creazione|date:"d/m/Y H:i" }}</p>
-    <p><strong>Fonte:</strong> {{ test.identificazione_compilatore }}</p>
+    <p><strong>Fonte:</strong> {{ test.identificazione_compilatore|title  }}</p>
 
     <div class="score-box">
         <p>PUNTEGGIO TOTALE OTTENUTO</p>

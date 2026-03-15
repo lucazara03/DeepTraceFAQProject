@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import FAQForm
+from .models import FAQForm, TestFAQ
 from django.core.mail import EmailMessage
 from .utils import render_to_pdf
 from django.contrib import messages
@@ -36,3 +36,7 @@ def home_test(request):
     else:
         form = FAQForm()
     return render(request, 'faqTest/faqTest.html', {'form': form})
+
+def storico(request):
+    test_salvati = TestFAQ.objects.all().order_by('-data_creazione')
+    return render(request, 'faqTest/storico.html', {'test_list': test_salvati})

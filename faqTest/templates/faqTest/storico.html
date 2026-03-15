@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Storico Test - DeepTrace</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container mt-4">
+        <a href="/"> Torna al test </a>
+        <h2 class="mt-2">Storico Test - DeepTrace</h2>
+        <table class="table table-striped table-hover mt-4">
+            <thead class="table-dark">
+                <tr>
+                    <th>Data</th>
+                    <th>Paziente (Email)</th>
+                    <th>Risultato</th>
+                    <th>Fonte delle informazioni</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for test in test_list %}
+                <tr>
+                    <td>{{ test.data_creazione|date:"d/m/Y H:i" }}</td>
+                    <td>{{ test.paziente_email }}</td>
+                    <td>{{ test.punteggio_totale }}</td>
+                    <td>{{ test.identificazione_compilatore|title  }} </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center">Nessun test presente nel database.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
