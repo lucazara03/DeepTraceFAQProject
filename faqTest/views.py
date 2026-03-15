@@ -31,6 +31,8 @@ def home_test(request):
                     messages.error(request, f"Errore invio email a {test_obj.paziente_email}.")
 
             return render(request, 'faqTest/success.html', {'test': test_obj})
+        else:
+            messages.error(request, "C'è un errore nel modulo. Controlla i campi inseriti.")
     else:
         form = FAQForm()
     return render(request, 'faqTest/faqTest.html', {'form': form})
